@@ -3,6 +3,7 @@ package com.feidian.controller;
 import com.feidian.mapper.BuyerMapper;
 import com.feidian.mapper.GoodsMapper;
 import com.feidian.mapper.OrderMapper;
+import com.feidian.pojo.Buy;
 import com.feidian.pojo.Buyer;
 import com.feidian.pojo.Goods;
 import com.feidian.pojo.Order;
@@ -42,9 +43,13 @@ public class GoodsController {
     }
 
     @PostMapping("/buy")
-    public int buy(@RequestBody int buyerId, @RequestBody String buyerAddress, @RequestBody List<Order> order){
+    public int buy(@RequestBody Buy buy){
+        List<Order> order = buy.getOrder();
+        for (Order order1 : order) {
+            System.out.println(order1);
+        }
+        Buyer buyer = buyerMapper.findBuyerById(buy.getBuyerId());
 
-        Buyer buyer = buyerMapper.findBuyerById(buyerId);
         for (Order order1 : order) {
 
             Goods goods = goodsMapper.findGoodById(order1.getGoodId());
@@ -56,20 +61,22 @@ public class GoodsController {
 
             //商品数量减少
             goods.setGoodInventory(inventory - quantity);
+            goodsMapper.setInventory(goods);
 
             //创建订单
             order1.setOrderId(0);
             order1.setDetailId(0);
-            order1.setBuyerId(buyer.getId());
+
+            order1.setBuyerId(buyer.getBuyerId());
+            order1.setBuyerAddress(buy.getBuyerAddress());
             order1.setBuyerName(buyer.getBuyerName());
-            order1.setBuyerAddress(buyerAddress);
             order1.setGoodPrice(goods.getGoodPrice());
             order1.setGoodId(goods.getGoodId());
             order1.setGoodName(goods.getGoodName());
             order1.setGoodQuantity(order1.getGoodQuantity());
 
             orderMapper.addOrderDetail(order1);
-            orderMapper.addOrderMster(order1);
+            orderMapper.addOrderMaster(order1);
         }
         return 1;
     }

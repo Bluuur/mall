@@ -7,5 +7,5 @@ import org.apache.ibatis.annotations.Mapper;
 public interface OrderMapper {
     int addOrderDetail(Order order);
 
-    int addOrderMster(Order order);
+    int addOrderMaster(Order order);
 }

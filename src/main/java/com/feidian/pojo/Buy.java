@@ -4,12 +4,14 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Buyer {
+public class Buy {
 
     private Integer buyerId;
-    private String buyerName;
     private String buyerAddress;
+    private List<Order> order;
 }
