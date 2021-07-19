@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.feidian.mapper.BuyerMapper">
+
+    <insert id="register" parameterType="Buyer">
+        insert into buyer (id,
+                           buyer_name
+                           )
+        values (#{id},
+                #{buyerName}
+                );
+    </insert>
+
+    <select id="findBuyerById" resultType="Buyer">
+        select * from buyer where id = #{id}
+    </select>
+
+</mapper>
